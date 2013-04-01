@@ -13,7 +13,8 @@ stuff = {
     'scripts': glob('scripts/*'),
     'include_package_data': True,
     'install_requires': [
-        'sqlalchemy==0.8.0'
+        'sqlalchemy==0.8.0',
+        'psycopg2',
     ],
 }
 

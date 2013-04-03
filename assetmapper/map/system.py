@@ -1,15 +1,43 @@
 "Models and Views for solar systems in Eve Online"
 
-import sqlalchemy as sa
+from sqlalchemy import Integer, String, Float, Column, ForeignKey, or_, and_
 
-from assetmapper.orm import Base
+from assetmapper.orm import Base, orm_session
 
 
 class System(Base):
     __tablename__ = 'systems'
 
-    id = sa.Column(sa.Integer, primary_key=True)
-    name = sa.Column(sa.String)
-    x = sa.Column(sa.Float)
-    y = sa.Column(sa.Float)
-    z = sa.Column(sa.Float)
+    id = Column(Integer, primary_key=True)
+    name = Column(String)
+    x = Column(Float)
+    y = Column(Float)
+    z = Column(Float)
+    constellation_id = Column(Integer, ForeignKey('constellations.id'))
+    region_id = Column(Integer, ForeignKey('regions.id'))
+
+    def neighbors(self):
+        "Return an iterable (cursor) of the neighbors of this system"
+        return orm_session.query(System).filter(
+            or_(
+                System.id.in_(orm_session.query(Jump.from_system).filter(
+                    Jump.to_system == self.id
+                )),
+                System.id.in_(orm_session.query(Jump.to_system).filter(
+                    Jump.from_system == self.id
+                ))
+            )
+        )
+
+    @classmethod
+    def by_name(cls, name):
+        "Retrieve the system with the given name."
+        return orm_session.query(System).filter(System.name == name).one()
+
+
+class Jump(Base):
+    __tablename__ = 'jumps'
+
+    id = Column(Integer, primary_key=True)
+    from_system = Column(Integer, ForeignKey('systems.id'))
+    to_system = Column(Integer, ForeignKey('systems.id'))

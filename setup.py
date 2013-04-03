@@ -15,6 +15,7 @@ stuff = {
     'install_requires': [
         'sqlalchemy==0.8.0',
         'psycopg2',
+        'nose',
     ],
 }
 

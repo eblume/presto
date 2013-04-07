@@ -3,7 +3,7 @@
 from sqlalchemy import Integer, String, Column, Float
 from sqlalchemy.orm import relationship
 
-from assetmapper.orm import Base
+from presto.orm import Base
 
 
 class Region(Base):

@@ -2,7 +2,7 @@
 
 from sqlalchemy import Integer, String, Float, Column, ForeignKey, or_, and_
 
-from assetmapper.orm import Base, orm_session
+from presto.orm import Base, orm_session
 
 
 class System(Base):

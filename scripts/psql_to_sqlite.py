@@ -15,7 +15,7 @@ working directory.
 ### CONFIGURATION:
 PG_USER = "eblume"
 PG_SERVER = "localhost"
-PG_DATABASE = "eve_rev_11"
+PG_DATABASE = "presto"
 
 ### END CONFIGURATION
 
@@ -23,10 +23,10 @@ PG_DATABASE = "eve_rev_11"
 import sqlalchemy as sa
 
 from presto.orm import Base
-from presto.pg_dump.models.mapsolarsystems import mapsolarsystems
-from presto.pg_dump.models.mapconstellations import mapconstellations
-from presto.pg_dump.models.mapregions import mapregions
-from presto.pg_dump.models.mapsolarsystemjumps import mapsolarsystemjumps
+from presto.pg_dump.mapsolarsystems import mapsolarsystems
+from presto.pg_dump.mapconstellations import mapconstellations
+from presto.pg_dump.mapregions import mapregions
+from presto.pg_dump.mapsolarsystemjumps import mapsolarsystemjumps
 from presto.map.system import System, Jump
 from presto.map.constellation import Constellation
 from presto.map.region import Region

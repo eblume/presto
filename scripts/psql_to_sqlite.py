@@ -23,13 +23,8 @@ PG_DATABASE = "presto"
 import sqlalchemy as sa
 
 from presto.orm import Base
-from presto.pg_dump.mapsolarsystems import mapsolarsystems
-from presto.pg_dump.mapconstellations import mapconstellations
-from presto.pg_dump.mapregions import mapregions
-from presto.pg_dump.mapsolarsystemjumps import mapsolarsystemjumps
-from presto.map.system import System, Jump
-from presto.map.constellation import Constellation
-from presto.map.region import Region
+import prest.pg_dump as pg
+from presto.map import System, Jump, Constellation, Region
 
 ### GLOBALS
 PG_CONNECTION = "postgres://{}@{}/{}".format(PG_USER, PG_SERVER, PG_DATABASE)
@@ -37,7 +32,7 @@ SQLITE_CONNECTION = "sqlite:///{}.sqlite".format(PG_DATABASE)
 
 
 def all_regions(conn):
-    for region in fetch(conn, mapregions.select()):
+    for region in fetch(conn, pg.mapregions):
         yield Region(
             id=region.regionid,
             name=region.regionname,
@@ -48,7 +43,7 @@ def all_regions(conn):
 
 
 def all_constellations(conn):
-    for constellation in fetch(conn, mapconstellations.select()):
+    for constellation in fetch(conn, pg.mapconstellations):
         yield Constellation(
             id=constellation.constellationid,
             name=constellation.constellationname,
@@ -60,7 +55,7 @@ def all_constellations(conn):
 
 
 def all_systems(conn):
-    for system in fetch(conn, mapsolarsystems.select()):
+    for system in fetch(conn, pg.mapsolarsystems):
         yield System(
             id=system.solarsystemid,
             name=system.solarsystemname,
@@ -73,14 +68,14 @@ def all_systems(conn):
 
 
 def all_jumps(conn):
-    for jump in fetch(conn, mapsolarsystemjumps.select()):
+    for jump in fetch(conn, pg.mapsolarsystemjumps):
         pair = sorted([jump.fromsolarsystemid, jump.tosolarsystemid])
         yield Jump(from_system=pair[0], to_system=pair[1])
 
 
-def fetch(conn, query):
+def fetch(conn, model):
     with conn.begin() as trans:
-        return trans.execute(query)
+        return trans.execute(model.select())
 
 
 def main():

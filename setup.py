@@ -29,6 +29,7 @@ setup(
     install_requires = [
         'docutils>=0.3', 
         'sqlalchemy',
+        'psycopg2',
     ],
 
     setup_requires = [

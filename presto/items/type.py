@@ -1,7 +1,7 @@
 "Models and views for Types (aka 'Items', except generic)"
 
 from sqlalchemy import Integer, String, Float, Column, ForeignKey, Boolean
-
+from sqlalchemy.orm import relationship, backref
 from presto.orm import Base, orm_session, NamedModel
 
 
@@ -14,10 +14,11 @@ class Type(Base, NamedModel):
     description = Column(String)
     mass = Column(Float)
     volume = Column(Float)
+    capacity = Column(Float)
     portionsize = Column(Float)
     baseprice = Column(Float)
     published = Column(Boolean)
-    market_group_id = Column(Integer, ForeignKey('marketgroups.id'))
+    marketgroup_id = Column(Integer, ForeignKey('marketgroups.id'))
 
 
 class Group(Base, NamedModel):

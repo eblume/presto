@@ -21,15 +21,16 @@ PG_DATABASE = "presto"
 
 ### IMPORTS
 import sqlalchemy as sa
+import sys
 
 from presto.orm import Base
-import prest.pg_dump as pg
+import presto.pg_dump.tables as pg
 from presto.map import System, Jump, Constellation, Region
 from presto.items import Type, Group, Category, MarketGroup
 
 ### GLOBALS
-PG_CONNECTION = "postgres://{}@{}/{}".format(PG_USER, PG_SERVER, PG_DATABASE)
-SQLITE_CONNECTION = "sqlite:///{}.sqlite".format(PG_DATABASE)
+PG_CONNECTION = "postgres://{}@{}/{}"
+SQLITE_CONNECTION = "sqlite:///{}"
 
 
 def all_marketgroups(conn):
@@ -56,7 +57,7 @@ def all_groups(conn):
     for group in fetch(conn, pg.invgroups):
         yield Group(
             id=group.groupid,
-            name=group.groupname
+            name=group.groupname,
             category_id=group.categoryid,
             description=group.description,
             manufacturable=(group.allowmanufacture == 1),
@@ -133,9 +134,17 @@ def fetch(conn, model):
 
 
 def main():
-    pg_conn = sa.create_engine(PG_CONNECTION)
+    if len(sys.argv) == 2:
+        sconn = SQLITE_CONNECTION.format(sys.argv[1])
+    elif len(sys.argv) == 1:
+        sconn = SQLITE_CONNECTION.format(PG_DATABASE + ".sqlite")
+    else:
+        print("Please specify the output file name.")
+        sys.exit(1)
 
-    sqlite_conn = sa.create_engine(SQLITE_CONNECTION)
+    pg_conn = sa.create_engine(
+        PG_CONNECTION.format(PG_USER, PG_SERVER, PG_DATABASE))
+    sqlite_conn = sa.create_engine(sconn)
     Session = sa.orm.sessionmaker()
     Session.configure(bind=sqlite_conn)
     sqlite_sess = Session()

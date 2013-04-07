@@ -12,6 +12,8 @@ class TestMap(ut.TestCase):
         self.assertTrue(stacmon)
         self.assertEqual(len(list(stacmon.neighbors())), 5)
         self.assertTrue("Ostingele" in {n.name for n in stacmon.neighbors()})
+        self.assertEqual(stacmon.region.name, "Placid")
+        self.assertEqual(stacmon.constellation.name, "Fislipesnes")
 
 
 if __name__ == '__main__':

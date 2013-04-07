@@ -2,10 +2,10 @@
 
 from sqlalchemy import Integer, String, Float, Column, ForeignKey, or_, and_
 
-from presto.orm import Base, orm_session
+from presto.orm import Base, orm_session, NamedModel
 
 
-class System(Base):
+class System(Base, NamedModel):
     __tablename__ = 'systems'
 
     id = Column(Integer, primary_key=True)
@@ -28,11 +28,6 @@ class System(Base):
                 ))
             )
         )
-
-    @classmethod
-    def by_name(cls, name):
-        "Retrieve the system with the given name."
-        return orm_session.query(System).filter(System.name == name).one()
 
 
 class Jump(Base):

@@ -5,3 +5,4 @@ setup.cfg
 *.egg
 *.tar.gz
 .coverage
+.DS_Store

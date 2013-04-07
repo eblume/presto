@@ -3,10 +3,10 @@
 from sqlalchemy import Integer, String, Column, Float, ForeignKey
 from sqlalchemy.orm import relationship
 
-from presto.orm import Base
+from presto.orm import Base, NamedModel
 
 
-class Constellation(Base):
+class Constellation(Base, NamedModel):
     __tablename__ = 'constellations'
 
     id = Column(Integer, primary_key=True)

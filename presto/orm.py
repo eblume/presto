@@ -23,3 +23,13 @@ def make_session():
 
 Base = declarative_base()
 orm_session = make_session()
+
+
+class NamedModel:
+    "Mixin for models that have a 'name' field."
+
+    @classmethod
+    def by_name(cls, name):
+        "Retrieve the instance of this model with the given name."
+        return orm_session.query(cls).filter(cls.name == name).one()
+

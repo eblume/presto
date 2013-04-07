@@ -9,14 +9,14 @@ Quickstart
 
 Please note that this quickstart is not comprehensive! It's just a quick taste.
 
->>> from presto.map.system import System
->>> stacmon = System.by_name("Stacmon")
->>> stacmon.region.name
-"Placid"
->>> stacmon.constellation.name
-"Fislipesnes"
->>> "Ostingele" in {x.name for x in stacmon.neighbors()}
-True
+    >>> from presto.map.system import System
+    >>> stacmon = System.by_name("Stacmon")
+    >>> stacmon.region.name
+    "Placid"
+    >>> stacmon.constellation.name
+    "Fislipesnes"
+    >>> "Ostingele" in {x.name for x in stacmon.neighbors()}
+    True
 
 About
 =====

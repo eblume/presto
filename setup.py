@@ -28,12 +28,12 @@ setup(
     # Required packages for installation
     install_requires = [
         'docutils>=0.3', 
+        'sqlalchemy',
     ],
 
     setup_requires = [
         'nose>=1.0',
         'coverage>=3.5.1',
-        'sqlalchemy',
     ],
 
     author = 'Erich Blume',

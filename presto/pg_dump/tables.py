@@ -2,7 +2,7 @@ import sqlalchemy as sa
 
 metadata = sa.MetaData()
 
-mapregions = sa.Table("invtypes", metadata,
+invtypes = sa.Table("invtypes", metadata,
     sa.Column('typeid', sa.Integer),
     sa.Column('groupid', sa.Integer),
     sa.Column('typename', sa.String),
@@ -16,10 +16,37 @@ mapregions = sa.Table("invtypes", metadata,
     sa.Column('marketgroupid', sa.Integer),
 )
 
+invgroups = sa.Table('invgroups', metadata,
+    sa.Column('groupid', sa.Integer),
+    sa.Column('categoryid', sa.Integer),
+    sa.Column('groupname', sa.String),
+    sa.Column('description', sa.String),
+    sa.Column('allowmanufacture', sa.Integer),
+    sa.Column('allowrecycler', sa.Integer),
+    sa.Column('anchored', sa.Integer),
+    sa.Column('anchorable', sa.Integer),
+    sa.Column('fittablenonsingleton', sa.Integer),
+    sa.Column('published', sa.Integer),
+)
+
+invcategories = sa.Table('invcategories', metadata,
+    sa.Column('categoryid', sa.Integer),
+    sa.Column('categoryname', sa.String),
+    sa.Column('description', sa.String),
+    sa.Column('published', sa.Integer),
+)
+
+invmarketgroups = sa.Table('invmarketgroups', metadata,
+    sa.Column('marketgroupid', sa.Integer),
+    sa.Column('parentgroupid', sa.Integer),
+    sa.Column('marketgroupname', sa.String),
+    sa.Column('description', sa.String),
+)
+
 mapconstellations = sa.Table("mapconstellations", metadata,
     sa.Column('regionid', sa.Integer),
     sa.Column('constellationid', sa.Integer),
-    sa.Column('constellationname', sa.String, nullable=True),
+    sa.Column('constellationname', sa.String),
     sa.Column('x', sa.Float),
     sa.Column('y', sa.Float),
     sa.Column('z', sa.Float),
@@ -53,8 +80,8 @@ mapsolarsystemjumps = sa.Table("mapsolarsystemjumps", metadata,
 mapsolarsystems = sa.Table("mapsolarsystems", metadata,
     sa.Column('regionid', sa.Integer),
     sa.Column('constellationid', sa.Integer),
-    sa.Column('solarsystemid', sa.Integer, nullable=False),
-    sa.Column('solarsystemname', sa.String, nullable=True),
+    sa.Column('solarsystemid', sa.Integer),
+    sa.Column('solarsystemname', sa.String),
     sa.Column('x', sa.Float),
     sa.Column('y', sa.Float),
     sa.Column('z', sa.Float),

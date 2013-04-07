@@ -25,10 +25,64 @@ import sqlalchemy as sa
 from presto.orm import Base
 import prest.pg_dump as pg
 from presto.map import System, Jump, Constellation, Region
+from presto.items import Type, Group, Category, MarketGroup
 
 ### GLOBALS
 PG_CONNECTION = "postgres://{}@{}/{}".format(PG_USER, PG_SERVER, PG_DATABASE)
 SQLITE_CONNECTION = "sqlite:///{}.sqlite".format(PG_DATABASE)
+
+
+def all_marketgroups(conn):
+    for mg in fetch(conn, pg.invmarketgroups):
+        yield MarketGroup(
+            id=mg.marketgroupid,
+            name=mg.marketgroupname,
+            description=mg.description,
+            parent_id=mg.parentgroupid,
+        )
+
+
+def all_categories(conn):
+    for cat in fetch(conn, pg.invcategories):
+        yield Category(
+            id=cat.categoryid,
+            name=cat.categoryname,
+            description=cat.description,
+            published=(cat.published == 1),
+        )
+
+
+def all_groups(conn):
+    for group in fetch(conn, pg.invgroups):
+        yield Group(
+            id=group.groupid,
+            name=group.groupname
+            category_id=group.categoryid,
+            description=group.description,
+            manufacturable=(group.allowmanufacture == 1),
+            recyclable=(group.allowrecycler == 1),
+            anchored=(group.anchored == 1),
+            anchorable=(group.anchorable == 1),
+            fit_singleton=(group.fittablenonsingleton != 1),
+            published=(group.published == 1)
+        )
+
+
+def all_types(conn):
+    for item in fetch(conn, pg.invtypes):
+        yield Type(
+            id=item.typeid,
+            group_id=item.groupid,
+            name=item.typename,
+            description=item.description,
+            mass=item.mass,
+            volume=item.volume,
+            capacity=item.capacity,
+            portionsize=item.portionsize,
+            baseprice=item.baseprice,
+            published=(item.published == 1),
+            marketgroup_id=item.marketgroupid,
+        )
 
 
 def all_regions(conn):
@@ -89,17 +143,20 @@ def main():
     # Create all the tables we will be populating
     Base.metadata.create_all(sqlite_conn)
 
-    # Populate Systems
-    sqlite_sess.add_all(all_systems(pg_conn))
+    def populate(func):
+        sqlite_sess.add_all(func(pg_conn))
 
-    # Populate Constellations
-    sqlite_sess.add_all(all_constellations(pg_conn))
+    # Populate the map data
+    populate(all_systems)
+    populate(all_constellations)
+    populate(all_regions)
+    populate(all_jumps)
 
-    # Populate Regions
-    sqlite_sess.add_all(all_regions(pg_conn))
-
-    # Populate Jump network
-    sqlite_sess.add_all(all_jumps(pg_conn))
+    # Populate the item data
+    populate(all_marketgroups)
+    populate(all_categories)
+    populate(all_groups)
+    populate(all_types)
 
     # Flush to disk
     sqlite_sess.commit()

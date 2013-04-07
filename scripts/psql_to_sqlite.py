@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 """Connect and convert the PostgreSQL dump to a sqlite database useable by
-assetmapper.
+presto.
 
 This script requires that the current data dump be already loaded on a local
 postgresql database. At some point I may add command line options to this
@@ -22,14 +22,14 @@ PG_DATABASE = "eve_rev_11"
 ### IMPORTS
 import sqlalchemy as sa
 
-from assetmapper.orm import Base
-from assetmapper.pg_dump.models.mapsolarsystems import mapsolarsystems
-from assetmapper.pg_dump.models.mapconstellations import mapconstellations
-from assetmapper.pg_dump.models.mapregions import mapregions
-from assetmapper.pg_dump.models.mapsolarsystemjumps import mapsolarsystemjumps
-from assetmapper.map.system import System, Jump
-from assetmapper.map.constellation import Constellation
-from assetmapper.map.region import Region
+from presto.orm import Base
+from presto.pg_dump.models.mapsolarsystems import mapsolarsystems
+from presto.pg_dump.models.mapconstellations import mapconstellations
+from presto.pg_dump.models.mapregions import mapregions
+from presto.pg_dump.models.mapsolarsystemjumps import mapsolarsystemjumps
+from presto.map.system import System, Jump
+from presto.map.constellation import Constellation
+from presto.map.region import Region
 
 ### GLOBALS
 PG_CONNECTION = "postgres://{}@{}/{}".format(PG_USER, PG_SERVER, PG_DATABASE)

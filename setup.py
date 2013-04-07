@@ -4,9 +4,9 @@ from setuptools import setup, find_packages
 from glob import glob
 
 stuff = {
-    'name': 'assetmapper',
+    'name': 'presto',
     'version': '0.1',
-    'description': 'Eve Online asset mapping utility',
+    'description': 'Eve Online all-purpose development package',
     'author': 'Erich Blume',
     'author_email': 'blume.erich@gmail.com',
     'packages': find_packages(),

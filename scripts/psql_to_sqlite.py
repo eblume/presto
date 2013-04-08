@@ -37,7 +37,7 @@ def all_marketgroups(conn):
     for mg in fetch(conn, pg.invmarketgroups):
         yield MarketGroup(
             id=mg.marketgroupid,
-            name=mg.marketgroupname,
+            name=mg.marketgroupname.strip(),  # Strip 'Hull & Armor '
             description=mg.description,
             parent_id=mg.parentgroupid,
         )

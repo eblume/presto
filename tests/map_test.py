@@ -7,7 +7,7 @@ from presto.map import System, Constellation, Region
 class TestMap(ut.TestCase):
 
     def test_map(self):
-        "Quick test on some map data."
+        "Basic map data functionality test"
         stacmon = System.by_name("Stacmon")
         self.assertTrue(stacmon)
         self.assertEqual(len(list(stacmon.neighbors())), 5)

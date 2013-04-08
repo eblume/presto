@@ -21,7 +21,6 @@ def make_session():
 
     return Session()
 
-Base = declarative_base()
 orm_session = make_session()
 
 
@@ -33,3 +32,15 @@ class NamedModel:
         "Retrieve the instance of this model with the given name."
         return orm_session.query(cls).filter(cls.name == name).one()
 
+    def __str__(self):
+        return self.name
+
+
+class Base:
+
+    @classmethod
+    def fetch_all(cls):
+        "Fetch all objects of this type. Returns an iterator."
+        return orm_session.query(cls).all()
+
+Base = declarative_base(cls=Base)

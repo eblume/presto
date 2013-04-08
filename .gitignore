@@ -6,3 +6,5 @@ setup.cfg
 *.tar.gz
 .coverage
 .DS_Store
+build/
+dist/

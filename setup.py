@@ -20,7 +20,7 @@ def read(fname):
 
 setup(
     name = 'presto',
-    version = 0.1,
+    version = 0.2,
     packages = find_packages(),
     scripts = glob.glob(os.path.join(os.path.dirname(__file__),'scripts/*')),
     include_package_data = True,

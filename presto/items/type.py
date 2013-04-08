@@ -2,6 +2,10 @@
 
 from sqlalchemy import Integer, String, Float, Column, ForeignKey, Boolean
 from sqlalchemy.orm import relationship, backref
+from urllib.request import urlopen
+from urllib.parse import urlencode
+import xml.etree.ElementTree as ET
+
 from presto.orm import Base, orm_session, NamedModel
 
 
@@ -19,6 +23,24 @@ class Type(Base, NamedModel):
     baseprice = Column(Float)
     published = Column(Boolean)
     marketgroup_id = Column(Integer, ForeignKey('marketgroups.id'))
+
+    price_cache = None
+
+    def jita_price(self):
+        "Query eve-central for Jita price data for this item."
+        if self.price_cache:
+            return self.price_cache
+
+        data = {
+            "typeid": self.id,
+            "usesystem": 30000142,  # Jita
+        }
+        endpoint = "http://api.eve-central.com/api/marketstat"
+        response = urlopen(endpoint, urlencode(data).encode("UTF-8"))
+        root = ET.fromstring(response.read())
+        price = float(root[0][0][0][1].text)
+        self.price_cache = price
+        return price
 
 
 class Group(Base, NamedModel):

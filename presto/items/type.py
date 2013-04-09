@@ -2,11 +2,17 @@
 
 from sqlalchemy import Integer, String, Float, Column, ForeignKey, Boolean
 from sqlalchemy.orm import relationship, backref
-from urllib.request import urlopen
-from urllib.parse import urlencode
+try:
+    # Python 3
+    from urllib.request import urlopen
+    from urllib.parse import urlencode
+except ImportError:
+    # Python 2
+    from urllib2 import urlopen
+    from urllib import urlencode
 import xml.etree.ElementTree as ET
 
-from presto.orm import Base, orm_session, NamedModel
+from presto.orm import Base, NamedModel
 
 
 class Type(Base, NamedModel):

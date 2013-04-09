@@ -25,7 +25,7 @@ def make_session():
 orm_session = make_session()
 
 
-class NamedModel:
+class NamedModel(object):
     "Mixin for models that have a 'name' field."
 
     @classmethod
@@ -37,7 +37,7 @@ class NamedModel:
         return self.name
 
 
-class Base:
+class Base(object):
 
     @classmethod
     def fetch_all(cls):

@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 
 """Connect and convert the PostgreSQL dump to a sqlite database useable by
 presto.

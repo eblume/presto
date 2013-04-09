@@ -23,7 +23,10 @@ setup(
     version = 0.2,
     packages = find_packages(),
     scripts = glob.glob(os.path.join(os.path.dirname(__file__),'scripts/*')),
-    include_package_data = True,
+
+    package_data = {
+        'presto': ['*.sqlite'],
+    },
 
     # Required packages for installation
     install_requires = [

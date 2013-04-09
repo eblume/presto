@@ -21,6 +21,7 @@ def make_session():
 
     return Session()
 
+
 orm_session = make_session()
 
 

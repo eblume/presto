@@ -9,7 +9,7 @@ def make_session():
     """Create a Session object - a connection to the sqlite database will
     persist for as long as
     """
-    data_file = "data_rev_1_1.sqlite"
+    data_file = "data.sqlite"
     data_path = sep.join((dirname(__file__), data_file))
     if not exists(data_path):
         return None

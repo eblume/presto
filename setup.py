@@ -31,12 +31,12 @@ setup(
     # Required packages for installation
     install_requires = [
         'docutils>=0.3',
-        'sqlalchemy',
         'psycopg2',
     ],
 
     setup_requires = [
         'nose>=1.0',
+        'sqlalchemy',
         'coverage>=3.5.1',
     ],
 
